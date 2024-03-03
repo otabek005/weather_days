@@ -11,6 +11,7 @@ const day5ul = $("#day5ul");
 const days = $("#days");
 const section = $("#section");
 const loader = $(".loader");
+const locationn = $("#location");
 
 
 
@@ -143,4 +144,22 @@ search.addEventListener("keyup", (e) => {
         e.preventDefault();
         get5daycity(e.target.value, key)
     }
+})
+
+
+window.navigator.geolocation.getCurrentPosition( (position) =>{
+    getlocationcity(position.coords.latitude, position.coords.longitude)
+})
+
+async function getlocationcity(location1, location2) {
+    let url = `https://api.weatherapi.com/v1/forecast.json?key=${key}&days=5&q=${location1},${location2} `
+    let response = await fetch(url);
+    let data = await response.json();
+    renderdata(data)
+}
+
+locationn.addEventListener("click" ,() =>{
+    window.navigator.geolocation.getCurrentPosition( (position) =>{
+        getlocationcity(position.coords.latitude, position.coords.longitude)
+    })
 })
